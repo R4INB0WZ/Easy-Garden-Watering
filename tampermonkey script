@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Hide Water Plant Button
+// @name         Easy Garden Watering
 // @namespace    http://tampermonkey.net/
 // @version      Alpha-v1
 // @description  This code will remove the "water plant" or "harvest plant" button once clicked.
