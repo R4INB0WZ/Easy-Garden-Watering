@@ -1,0 +1,60 @@
+// ==UserScript==
+// @name         Hide Water Plant Button
+// @namespace    http://tampermonkey.net/
+// @version      Alpha-v1
+// @description  This code will remove the "water plant" or "harvest plant" button once clicked.
+// @author       You
+// @match        https://pokefarm.com/garden
+// @require      http://code.jquery.com/jquery-3.7.1.min.js
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=pokefarm.com
+// @grant        none
+// ==/UserScript==
+
+/* global $ */
+
+(function() {
+    'use strict';
+
+    // CSS Adjustments
+    $("#garden_content>ul").css({
+        position: "relative",
+        height: "200px",
+        margin: "10px",
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "center"
+    });
+
+    $("#garden_content>ul>li").css({
+        position: "absolute",
+        boxSizing: "border-box",
+        width: "100%",
+        height: "100%",
+        overflow: "hidden"
+    });
+
+    $('.cmd').css({
+        boxSizing: "border-box",
+        height: "100%",
+        width: "100%",
+        top: "0",
+        left: "0"
+    });
+
+    $('.cmd>button').css({
+        boxSizing: "border-box",
+        height: "100%",
+        width: "100%",
+        borderRadius: "0"
+    });
+
+
+    // Functions
+    $('.cmd>button').each(function(){
+        $(this).click(function() {
+            $(this).parents("ul>li").hide();
+        });
+    });
+
+})();
