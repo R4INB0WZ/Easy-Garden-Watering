@@ -1,60 +1,169 @@
 // ==UserScript==
 // @name         Easy Garden Watering
 // @namespace    http://tampermonkey.net/
-// @version      Alpha-v1
+// @version      Alpha-v2
 // @description  This code will remove the "water plant" or "harvest plant" button once clicked.
 // @author       You
 // @match        https://pokefarm.com/garden
-// @require      http://code.jquery.com/jquery-3.7.1.min.js
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=pokefarm.com
 // @grant        none
 // ==/UserScript==
 
-/* global $ */
-
 (function() {
-    'use strict';
+    "use strict";
 
-    // CSS Adjustments
-    $("#garden_content>ul").css({
-        position: "relative",
-        height: "200px",
-        margin: "10px",
-        display: "flex",
-        flexWrap: "wrap",
-        alignItems: "center",
-        justifyContent: "center"
+    console.log("Easy Garden Watering Loaded");
+
+    // Variables
+    let scriptToggle = false;
+    console.log("scriptToggle = " + scriptToggle);
+
+    let toggleBtn;
+    console.log("toggleBtn = " + toggleBtn);
+
+    let notice;
+    console.log("notice = " + notice);
+
+    let gardenUl = document.querySelectorAll("#garden_content > ul")[0];
+    console.log("gardenUl = " + gardenUl);
+
+    let gardenUlLi = document.querySelectorAll("#garden_content > ul > li");
+    console.log("gardenUlLi = " + gardenUlLi);
+
+    let cmdButton = document.querySelectorAll(".cmd > button");
+    console.log("cmdButton = " + cmdButton);
+
+    let cmd = document.querySelectorAll(".cmd");
+    console.log("cmd = " + cmd);
+
+    let divStatus = document.querySelectorAll("#garden_content > ul > li> div.status");
+    console.log(divStatus);
+
+    let UlLi = document.querySelectorAll("ul > li");
+    console.log("UlLi = " + UlLi);
+
+    let reloadbtn = document.querySelectorAll(".reloadbtn")[0];
+    console.log("reloadbtn = " + reloadbtn);
+
+    // ---------------------------------------------------------------------------------------------------- //
+
+    // Insert Notice Element
+    gardenUl.insertAdjacentHTML("afterbegin", "<h3 id='notice'>Please refresh the garden to water again!</h3>");
+
+    notice = document.getElementById("notice");
+    console.log(notice);
+
+    // Insert Toggle Button
+    reloadbtn.insertAdjacentHTML("afterbegin", "<button id='toggleBtn'>Toggle Easy Garden Watering On/Off</button>");
+
+    toggleBtn = document.getElementById("toggleBtn");
+    console.log(notice);
+    toggleBtn["style"].marginRight = "10px";
+
+    // ---------------------------------------------------------------------------------------------------- //
+
+    // Script Toggle Function
+    toggleBtn.addEventListener("click", function() {
+        scriptToggle = !scriptToggle;
+
+        // Script On/Off Logic
+        if (scriptToggle == true) {
+            console.log(scriptToggle);
+
+            // CSS Adjustments
+            notice["style"].display = "block";
+
+            gardenUl["style"].position = "relative";
+            gardenUl["style"].height = "200px";
+            gardenUl["style"].margin = "10px";
+            gardenUl["style"].display = "flex";
+            gardenUl["style"].flexWrap = "wrap";
+            gardenUl["style"].alignItems = "center";
+            gardenUl["style"].justifyContent = "center";
+
+            gardenUlLi.forEach(li => {
+                li["style"].position = "absolute";
+                li["style"].boxSizing = "border-box";
+                li["style"].color = "transparent";
+                li["style"].width = "100%";
+                li["style"].height = "100%";
+                li["style"].overflow = "hidden";
+            });
+
+            divStatus.forEach(div => {
+                div["style"].display = "none";
+            });
+
+            cmd.forEach(div => {
+                div["style"].boxSizing = "border-box";
+                div["style"].height = "100%";
+                div["style"].width = "100%";
+                div["style"].top = "0";
+                div["style"].left = "0"
+            });
+
+            cmdButton.forEach(btn => {
+                btn.textContent = "Water Plants";
+                btn["style"].fontSize = "32pt";
+                btn["style"].boxSizing = "border-box";
+                btn["style"].height = "100%";
+                btn["style"].width = "100%";
+                btn["style"].borderRadius = "0";
+                // Water Plants Button Disappear On Click
+                btn.addEventListener("click", function() {
+                    btn.closest("ul>li").style.display = "none";
+                    btn.getAttribute("disabled", true);
+                });
+            });
+        } else {
+            console.log(scriptToggle);
+            // CSS Adjustments
+            notice["style"].display = "none";
+            gardenUl["style"].position = "";
+            gardenUl["style"].height = "";
+            gardenUl["style"].margin = "";
+            gardenUl["style"].display = "";
+            gardenUl["style"].flexWrap = "";
+            gardenUl["style"].alignItems = "";
+            gardenUl["style"].justifyContent = "";
+
+            gardenUlLi.forEach(li => {
+                li["style"].position = "";
+                li["style"].boxSizing = "";
+                li["style"].color = "";
+                li["style"].width = "";
+                li["style"].height = "";
+                li["style"].overflow = "";
+                li["style"].display = "inline-block";
+            });
+
+            divStatus.forEach(div => {
+                div["style"].display = "";
+            });
+
+            cmd.forEach(div => {
+                div["style"].boxSizing = "";
+                div["style"].height = "";
+                div["style"].width = "";
+                div["style"].top = "";
+                div["style"].left = "";
+            });
+
+            cmdButton.forEach(btn => {
+                btn["style"].fontSize = "";
+                btn["style"].boxSizing = "";
+                btn["style"].height = "";
+                btn["style"].width = "";
+                btn["style"].borderRadius = "";
+                btn["style"].borderRadius = "";
+                // Water Plants Button Disappear On Click
+                btn.removeEventListener("click", function() {
+                    btn.closest("ul>li").style.display = "none";
+                    btn.getAttribute("disabled", true);
+                });
+            });
+        };
     });
 
-    $("#garden_content>ul>li").css({
-        position: "absolute",
-        boxSizing: "border-box",
-        width: "100%",
-        height: "100%",
-        overflow: "hidden"
-    });
-
-    $('.cmd').css({
-        boxSizing: "border-box",
-        height: "100%",
-        width: "100%",
-        top: "0",
-        left: "0"
-    });
-
-    $('.cmd>button').css({
-        boxSizing: "border-box",
-        height: "100%",
-        width: "100%",
-        borderRadius: "0"
-    });
-
-
-    // Functions
-    $('.cmd>button').each(function(){
-        $(this).click(function() {
-            $(this).parents("ul>li").hide();
-        });
-    });
 
 })();
