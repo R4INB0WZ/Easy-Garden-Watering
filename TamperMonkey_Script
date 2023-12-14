@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         Easy Garden Watering
 // @namespace    http://tampermonkey.net/
-// @version      Alpha-v2
+// @version      Alpha-v3
 // @description  This code will remove the "water plant" or "harvest plant" button once clicked.
 // @author       You
 // @match        https://pokefarm.com/garden
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=pokefarm.com
 // @grant        none
+// @downloadURL  https://update.greasyfork.org/scripts/482147/Easy%20Garden%20Watering.user.js
+// @updateURL    https://update.greasyfork.org/scripts/482147/Easy%20Garden%20Watering.meta.js
 // ==/UserScript==
 
 (function() {
@@ -20,9 +22,6 @@
 
     let toggleBtn;
     console.log("toggleBtn = " + toggleBtn);
-
-    let notice;
-    console.log("notice = " + notice);
 
     let gardenUl = document.querySelectorAll("#garden_content > ul")[0];
     console.log("gardenUl = " + gardenUl);
@@ -47,17 +46,12 @@
 
     // ---------------------------------------------------------------------------------------------------- //
 
-    // Insert Notice Element
-    gardenUl.insertAdjacentHTML("afterbegin", "<h3 id='notice'>Please refresh the garden to water again!</h3>");
-
-    notice = document.getElementById("notice");
-    console.log(notice);
 
     // Insert Toggle Button
     reloadbtn.insertAdjacentHTML("afterbegin", "<button id='toggleBtn'>Toggle Easy Garden Watering On/Off</button>");
 
     toggleBtn = document.getElementById("toggleBtn");
-    console.log(notice);
+    console.log(toggleBtn);
     toggleBtn["style"].marginRight = "10px";
 
     // ---------------------------------------------------------------------------------------------------- //
@@ -71,7 +65,6 @@
             console.log(scriptToggle);
 
             // CSS Adjustments
-            notice["style"].display = "block";
 
             gardenUl["style"].position = "relative";
             gardenUl["style"].height = "200px";
@@ -118,7 +111,7 @@
         } else {
             console.log(scriptToggle);
             // CSS Adjustments
-            notice["style"].display = "none";
+
             gardenUl["style"].position = "";
             gardenUl["style"].height = "";
             gardenUl["style"].margin = "";
